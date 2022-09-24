@@ -1,20 +1,14 @@
 package com.example.demo.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HealthCheckController {
+public class CartController {
 
-    @RequestMapping(method = RequestMethod.GET, value="/")
-    public ResponseEntity<Object> indexPage() {
-        return ResponseEntity.status(HttpStatus.OK).body("API For the BCG Coding Challenge");
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value="/health")
+    @RequestMapping(method = RequestMethod.GET, value="/cart")
     public HttpStatus checkHealth() {
         return HttpStatus.OK;
     }
