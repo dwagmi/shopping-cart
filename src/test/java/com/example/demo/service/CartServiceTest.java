@@ -44,11 +44,11 @@ public class CartServiceTest {
 
     @Test
     public void testGetAllCarts() {
-        when(mockCartRepository.findAll()).thenReturn(fakeCarts);
+        when(mockCartRepository.findAllByOrderByIdAsc()).thenReturn(fakeCarts);
 
         List<Cart> carts = cartService.getAllCarts();
 
-        verify(mockCartRepository, times(1)).findAll();
+        verify(mockCartRepository, times(1)).findAllByOrderByIdAsc();
         assertEquals(fakeCarts, carts);
     }
 

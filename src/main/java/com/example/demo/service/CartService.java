@@ -31,7 +31,7 @@ public class CartService implements BaseCartService {
 
     @Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
     public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
+        return cartRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -51,11 +51,11 @@ public class CartService implements BaseCartService {
         List<CartItem> cartItems = cart.getCartItems();
         log.info("Current cartItems: " + cartItems);
         if (cartItems.isEmpty() || (!cartItems.contains(product) && quantity <= product.getQuantity())) {
+            log.info("Item is OK to add");
             cartItemRepository.save(new CartItem(cart, product, quantity));
-//            cartItems.add(new CartItem(product, quantity));
-//            log.info("New cartItems: " + cartItems);
-//            log.info("New cart: " + cart);
-//            cartRepository.save(cart);
+            cart = cartRepository.findById(cart.getId()).get();
+            log.info("New cartItems: " + cartItems);
+            log.info("New cart: " + cart);
         } else {
             log.info ("Nothing to save");
         }
