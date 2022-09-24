@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/products")
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> allProducts = productService.getAllProducts();
         return ResponseEntity.status(HttpStatus.OK).body(allProducts);
     }

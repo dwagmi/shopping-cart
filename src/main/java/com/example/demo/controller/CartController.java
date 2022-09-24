@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Cart;
-import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.CartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +25,7 @@ public class CartController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/carts")
-    public ResponseEntity<List<Cart>> getProducts() {
+    public ResponseEntity<List<Cart>> getAllCarts() {
         List<Cart> allCarts = cartService.getAllCarts();
         return ResponseEntity.status(HttpStatus.OK).body(allCarts);
     }
