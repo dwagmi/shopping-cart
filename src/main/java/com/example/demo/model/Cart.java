@@ -8,6 +8,7 @@ import java.util.List;
 public class Cart {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @OneToMany(cascade = {CascadeType.PERSIST})
@@ -16,19 +17,6 @@ public class Cart {
 
     public List<CartItem> getCartItems() {
         return cartItems;
-    }
-
-    /**
-     * Adds a product to the cart with the specified quantity,
-     * if available.
-     *
-     * @param product
-     * @param quantity
-     */
-    public void addProduct(Product product, int quantity) {
-        if (cartItems.isEmpty() || (!cartItems.contains(product) && quantity <= product.getQuantity())) {
-            cartItems.add(new CartItem(product, quantity));
-        }
     }
 
     /**

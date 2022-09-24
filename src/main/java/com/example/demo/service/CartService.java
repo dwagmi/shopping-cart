@@ -27,8 +27,22 @@ public class CartService implements BaseCartService {
         return cartRepository.findAll();
     }
 
+    @Override
+    public Cart getCartById(Long cartId) {
+        Optional<Cart> optionalCart = cartRepository.findById(cartId);
+        if (optionalCart.isPresent()) {
+            return optionalCart.get();
+        }
+
+        Cart cart = cartRepository.save(new Cart());
+        return cart;
+    }
+
     public Cart addProduct(Cart cart, Product product, int quantity) {
-        cart.addProduct(product, quantity);
+        List<CartItem> cartItems = cart.getCartItems();
+        if (cartItems.isEmpty() || (!cartItems.contains(product) && quantity <= product.getQuantity())) {
+            cartItems.add(new CartItem(product, quantity));
+        }
         cartRepository.save(cart);
         return cart;
     }
