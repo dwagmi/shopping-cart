@@ -1,17 +1,33 @@
 version: '3'
 services:
-  postgres:
-    image: postgres:13.1
+  database:
+    image: postgres:14.5
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
-      timeout: 45s
       interval: 10s
+      timeout: 10s
       retries: 10
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./db:/docker-entrypoint-initdb.d/
+      - db:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
+  backend:
+    build: .
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: always
+    environment:
+      - DATABASE_HOSTNAME=database
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+volumes:
+  db:

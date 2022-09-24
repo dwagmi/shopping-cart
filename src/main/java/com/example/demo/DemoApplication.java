@@ -18,13 +18,13 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo(ProductRepository productRepository) {
-		return (args) -> {
-			for (Product product: productRepository.findAll()) {
-				System.out.println(product);
-			}
-		};
-	}
+//	@Bean
+//	public CommandLineRunner demo(ProductRepository productRepository) {
+//		return (args) -> {
+//			for (Product product: productRepository.findAll()) {
+//				System.out.println(product);
+//			}
+//		};
+//	}
 
 }
