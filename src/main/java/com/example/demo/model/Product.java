@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public class Product {
-
     @Id
     private Long id;
     private String sku;
