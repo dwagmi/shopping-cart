@@ -11,6 +11,15 @@ public class Product {
     private double price;
     private int quantity;
 
+    public Product() {}
+
+    public Product(String sku, String name, double price, int quantity) {
+        this.sku = sku;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public Long getId() {
         return id;
     }
