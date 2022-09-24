@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table(name="product")
 @Entity
 public class Product {
 
@@ -13,7 +10,7 @@ public class Product {
     private String sku;
     private String name;
     private double price;
-    private int qty;
+    private int quantity;
 
     public Long getId() {
         return id;
@@ -47,12 +44,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getQty() {
-        return qty;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setQuantity(int qty) {
+        this.quantity = qty;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class Product {
                 ", sku='" + sku + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", qty=" + qty +
+                ", quantity=" + quantity +
                 '}';
     }
 }
