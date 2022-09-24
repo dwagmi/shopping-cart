@@ -27,4 +27,12 @@ public class Cart {
     public int totalItems() {
         return cartItems.size();
     }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", cartItems=" + cartItems +
+                '}';
+    }
 }
