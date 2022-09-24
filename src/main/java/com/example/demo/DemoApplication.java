@@ -22,7 +22,6 @@ public class DemoApplication {
 	public CommandLineRunner demo(ProductRepository productRepository) {
 		return (args) -> {
 			for (Product product: productRepository.findAll()) {
-				System.out.println("Products");
 				System.out.println(product);
 			}
 		};
