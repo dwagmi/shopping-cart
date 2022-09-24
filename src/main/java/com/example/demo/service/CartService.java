@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartService {
+public class CartService implements BaseCartService {
     Logger log = LoggerFactory.getLogger(CartService.class);
 
     private final CartRepository cartRepository;

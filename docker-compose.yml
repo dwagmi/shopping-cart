@@ -1,7 +1,7 @@
 version: '3'
 services:
   database:
-    image: postgres:14.5
+    image: postgres:13.1
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
       interval: 10s
