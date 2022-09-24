@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Cart;
 import com.example.demo.model.Product;
+import com.example.demo.repository.CartItemRepository;
 import com.example.demo.repository.CartRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,9 +30,12 @@ public class CartServiceTest {
     @Mock
     private CartRepository mockCartRepository;
 
+    @Mock
+    private CartItemRepository cartItemRepository;
+
     @BeforeEach
     public void setUp() {
-        cartService = new CartService(mockCartRepository);
+        cartService = new CartService(mockCartRepository, cartItemRepository);
         fakeProduct = new Product("sku-001", "Test Product", 34.99, 3);
         fakeCarts = new ArrayList<>();
         fakeEmptyCart = new Cart();

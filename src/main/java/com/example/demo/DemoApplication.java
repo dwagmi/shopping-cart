@@ -26,19 +26,27 @@ public class DemoApplication {
 	public CommandLineRunner demo(ProductRepository productRepository, CartService cartService, CartItemRepository cartItemRepository) {
 		return (args) -> {
 			// Populate with fake data
-			Cart cart = cartService.getCartById(0L);
-
-			cartService.addProduct(cart, new Product("sku-001", "Computer", 39.99, 5), 3);
+			Cart cart = cartService.getCartById(1L);
+			log.info("Retrieved cart " + cart);
+			Product toAdd = productRepository.findById(1L).get();
+			log.info("Product to add: " + toAdd);
+//			cartService.addProduct(cart, new Product("sku-001", "Computer", 39.99, 5), 3);
+			cartService.addProduct(cart, toAdd, 3);
 
 			// Get all products
 			for (Product product: productRepository.findAll()) {
 				System.out.println(product);
 			}
 
-			// Get all cart items
-			for (CartItem cartItem: cartItemRepository.findAll()) {
-				System.out.println(cartItem);
-			}
+			// Get all carts
+//			for (Cart c: cartService.getAllCarts()) {
+//				System.out.println(c);
+//			}
+
+			// Get all cartItems
+//			for (CartItem c: cartItemRepository.findAll()) {
+//				System.out.println(c);
+//			}
 		};
 	}
 

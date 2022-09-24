@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.api;
 
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ProductController {
-    Logger log = LoggerFactory.getLogger(ProductController.class);
+public class ProductApi {
+    Logger log = LoggerFactory.getLogger(ProductApi.class);
 
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductApi(ProductService productService) {
         this.productService = productService;
     }
 

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,8 +11,14 @@ public class CartItem {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    /**
+     * The cart that this cartItem belongs to. It is allowed
+     * to be null so Hibernate can automatically populate the
+     * cartId.
+     */
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
 
     @ManyToOne
@@ -48,11 +56,18 @@ public class CartItem {
         this.product = product;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +
                 "id=" + id +
-                ", cart=" + cart +
                 ", product=" + product +
                 ", quantity=" + quantity +
                 '}';

@@ -1,7 +1,8 @@
-package com.example.demo.controller;
+package com.example.demo.api;
 
 import com.example.demo.model.Cart;
 import com.example.demo.service.CartService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class CartController {
-    Logger log = LoggerFactory.getLogger(CartController.class);
+public class CartApi {
+    Logger log = LoggerFactory.getLogger(CartApi.class);
 
     private final CartService cartService;
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartApi(CartService cartService) {
         this.cartService = cartService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/carts")
     public ResponseEntity<List<Cart>> getAllCarts() {
         List<Cart> allCarts = cartService.getAllCarts();
+        log.info("Retrieved all carts: " + allCarts);
         return ResponseEntity.status(HttpStatus.OK).body(allCarts);
     }
+
+
 }

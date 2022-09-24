@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +13,13 @@ public class Cart {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name="cart_id")
     private List<CartItem> cartItems = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
 
     public List<CartItem> getCartItems() {
         return cartItems;
@@ -26,6 +32,10 @@ public class Cart {
      */
     public int totalItems() {
         return cartItems.size();
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     @Override

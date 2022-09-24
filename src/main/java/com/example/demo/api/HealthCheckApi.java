@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HealthCheckController {
+public class HealthCheckApi {
 
     @RequestMapping(method = RequestMethod.GET, value="/")
     public ResponseEntity<Object> indexPage() {
