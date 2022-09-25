@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Cart;
 import com.example.demo.model.CartItem;
+import com.example.demo.model.CheckoutSession;
 import com.example.demo.model.Product;
 import com.example.demo.repository.CartItemRepository;
 import com.example.demo.repository.CartRepository;
@@ -125,5 +126,10 @@ public class CartService implements BaseCartService {
         } else {
             return false;
         }
+    }
+
+    public CheckoutSession checkout(Cart cart) {
+
+        return new CheckoutSession();
     }
 }

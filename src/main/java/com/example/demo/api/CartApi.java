@@ -1,6 +1,7 @@
 package com.example.demo.api;
 
 import com.example.demo.model.Cart;
+import com.example.demo.model.CheckoutSession;
 import com.example.demo.model.Product;
 import com.example.demo.service.CartService;
 import com.example.demo.service.ProductService;
@@ -76,5 +77,18 @@ public class CartApi {
         Cart newCart = cartService.addProduct(cart, product, quantity);
 
         return ResponseEntity.status(HttpStatus.OK).body(newCart);
+    }
+
+    // TODO: Change to POST
+    @GetMapping(path="/checkout/{cartId}")
+    public ResponseEntity<CheckoutSession> checkout(@PathVariable Long cartId) {
+        // Look up and retrieve cart from provided id.
+        Optional<Cart> optionalCart = cartService.findCartById(cartId);
+        Cart cart = optionalCart.get();
+        log.info("Retrieved cart: " + cart);
+
+        CheckoutSession checkoutSession = cartService.checkout(cart);
+
+        return ResponseEntity.status(HttpStatus.OK).body(checkoutSession);
     }
 }
