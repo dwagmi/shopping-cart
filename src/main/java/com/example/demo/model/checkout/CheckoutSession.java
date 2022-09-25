@@ -5,10 +5,13 @@ import com.example.demo.model.cart.CartItem;
 import com.example.demo.model.promotion.Promotion;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Entity
 public class CheckoutSession {
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -18,15 +21,12 @@ public class CheckoutSession {
     @JoinColumn(name="cart_id")
     private Cart cart;
 
-    private double total;
-
 //    private List<Promotion> promotions;
 
     public CheckoutSession() {}
 
     public CheckoutSession(Cart cart) {
         this.cart = cart;
-        this.total = calculateNetTotal(cart);
     }
 
     /**
@@ -56,8 +56,11 @@ public class CheckoutSession {
         return cart;
     }
 
-    public double getTotal() {
-        return total;
+    public String getTotal() {
+        return df.format(calculateNetTotal(cart));
     }
 
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }
