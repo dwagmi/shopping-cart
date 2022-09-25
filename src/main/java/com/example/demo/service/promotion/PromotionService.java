@@ -1,5 +1,6 @@
 package com.example.demo.service.promotion;
 
+import com.example.demo.model.cart.Cart;
 import com.example.demo.model.promotion.Promotion;
 import com.example.demo.repository.promotion.PromotionRepository;
 import org.slf4j.Logger;

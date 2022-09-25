@@ -1,5 +1,6 @@
 package com.example.demo.model.promotion;
 
+import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
 
 import javax.persistence.Entity;
@@ -31,6 +32,11 @@ public class MultiBuyPromotion extends Promotion {
 
     public int getPromotionQuantity() {
         return promotionQuantity;
+    }
+
+    @Override
+    public Cart applyPromotion(Cart cart) {
+        return new Cart();
     }
 
     @Override

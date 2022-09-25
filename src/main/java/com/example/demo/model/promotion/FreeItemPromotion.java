@@ -1,5 +1,6 @@
 package com.example.demo.model.promotion;
 
+import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
 
 import javax.persistence.Entity;
@@ -27,6 +28,11 @@ public class FreeItemPromotion extends Promotion {
 
     public Product getPromotionProduct() {
         return promotionProduct;
+    }
+
+    @Override
+    public Cart applyPromotion(Cart cart) {
+        return null;
     }
 
     @Override

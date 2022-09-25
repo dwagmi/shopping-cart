@@ -1,5 +1,6 @@
 package com.example.demo.model.promotion;
 
+import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
 
 import javax.persistence.*;
@@ -34,6 +35,15 @@ public abstract class Promotion {
     public Product getProduct() {
         return product;
     }
+
+    /**
+     * Each child promotion updates the cart according to their
+     * specific promotion details
+     *
+     * @param cart
+     * @return
+     */
+    public abstract Cart applyPromotion(Cart cart);
 
     @Override
     public String toString() {
