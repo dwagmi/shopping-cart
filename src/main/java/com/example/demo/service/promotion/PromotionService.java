@@ -27,7 +27,7 @@ public class PromotionService {
     }
 
     public List<Promotion> findPromotionsByProductId(Long productId) {
-        return promotionRepository.findByProductId(productId);
+        return promotionRepository.findByProductIdByOrderByIdAsc(productId);
     }
 
     /**

@@ -33,8 +33,7 @@ public class Cart {
             inverseJoinColumns = { @JoinColumn(name = "promotion_id") }
     )
     private Set<Promotion> promotions;
-
-
+    
     public Long getId() {
         return id;
     }
@@ -45,8 +44,6 @@ public class Cart {
 
     /**
      * Returns the items in the cart, sorted by cartItem id
-     *
-     * @return
      */
     public List<CartItem> getCartItems() {
         cartItems.sort(Comparator.comparing(CartItem::getId));
@@ -55,8 +52,6 @@ public class Cart {
 
     /**
      * Returns the number of items in the cart
-     *
-     * @return
      */
     public int totalItems() {
         return cartItems.size();
@@ -64,8 +59,6 @@ public class Cart {
 
     /**
      * Extracts the list of products from cart items.
-     *
-     * @return
      */
     @JsonIgnore
     public List<Product> getProducts() {
