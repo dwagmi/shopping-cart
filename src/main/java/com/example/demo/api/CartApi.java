@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/cart")
 public class CartApi {
     Logger log = LoggerFactory.getLogger(CartApi.class);
 
@@ -25,7 +26,7 @@ public class CartApi {
         this.cartService = cartService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/carts")
+    @RequestMapping(method = RequestMethod.GET, value="/list")
     public ResponseEntity<List<Cart>> getAllCarts() {
         List<Cart> allCarts = cartService.getAllCarts();
         log.info("Retrieved all carts: " + allCarts);
