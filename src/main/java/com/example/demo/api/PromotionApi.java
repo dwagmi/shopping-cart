@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/promotion")
 public class PromotionApi {
-    Logger log = LoggerFactory.getLogger(PromotionApi.class);
+    private static Logger log = LoggerFactory.getLogger(PromotionApi.class);
 
     private final PromotionService promotionService;
 

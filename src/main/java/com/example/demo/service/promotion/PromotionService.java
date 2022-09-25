@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class PromotionService {
-    Logger log = LoggerFactory.getLogger(PromotionService.class);
+    private static Logger log = LoggerFactory.getLogger(PromotionService.class);
 
     private final PromotionRepository promotionRepository;
 

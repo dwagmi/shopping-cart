@@ -35,10 +35,7 @@ public class Cart {
     private List<CartItem> cartItems = new ArrayList<>();
 
     /**
-     * A Cart can include multiple promotions, and a promotion
-     * can be applied to multiple Carts - a join table is used to
-     * model the many-to-many relationship.
-     *
+     * A join table is used to model the many-to-many relationship between carts and promotions
      * Similar to cart items, a cart's promotions are also fetched eagerly.
      */
     @ManyToMany(fetch = FetchType.EAGER)
@@ -70,6 +67,7 @@ public class Cart {
     public void setPromotions(List<Promotion> promotions) {
         this.promotions =  new HashSet<Promotion>(promotions);
     }
+
     /**
      * Calculates and returns the cart's gross total before promotions are
      * applied, as a formatted string to 2dp.
@@ -89,8 +87,7 @@ public class Cart {
 
     /**
      * Calculates and returns the cart's net total after promotions are applied,
-     * as a formatted string to 2dp.
-     *
+     * as a formatted string to 2 decimal places
      */
     public String getNetTotal() {
         return df.format(calculateNetTotal());
@@ -112,7 +109,7 @@ public class Cart {
     }
 
     /**
-     * Extracts the list of products from cart items.
+     * Extracts the list of products from cart items
      */
     @JsonIgnore
     public List<Product> getProducts() {

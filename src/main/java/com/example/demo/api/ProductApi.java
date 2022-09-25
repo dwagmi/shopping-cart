@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 public class ProductApi {
-    Logger log = LoggerFactory.getLogger(ProductApi.class);
+    private static Logger log = LoggerFactory.getLogger(ProductApi.class);
 
     private final ProductService productService;
 

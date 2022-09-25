@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 public class CartService implements BaseCartService {
-    Logger log = LoggerFactory.getLogger(CartService.class);
+    private static Logger log = LoggerFactory.getLogger(CartService.class);
 
     private final PromotionService promotionService;
     private final CartRepository cartRepository;

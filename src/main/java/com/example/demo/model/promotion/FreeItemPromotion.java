@@ -2,6 +2,8 @@ package com.example.demo.model.promotion;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,6 +17,8 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class FreeItemPromotion extends Promotion {
+    private static Logger log = LoggerFactory.getLogger(FreeItemPromotion.class);
+
     @ManyToOne
     @JoinColumn(name = "promotion_product_id")
     private Product promotionProduct;
@@ -32,6 +36,7 @@ public class FreeItemPromotion extends Promotion {
 
     @Override
     public Cart applyPromotion(Cart cart) {
+        log.info("apply");
         return null;
     }
 

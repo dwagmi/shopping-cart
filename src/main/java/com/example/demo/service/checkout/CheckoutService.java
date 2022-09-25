@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class CheckoutService implements BaseCheckoutService {
-    Logger log = LoggerFactory.getLogger(CheckoutService.class);
+    private static Logger log = LoggerFactory.getLogger(CheckoutService.class);
 
     private final CheckoutSessionRepository checkoutSessionRepository;
     private final PromotionService promotionService;

@@ -20,7 +20,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cart")
 public class CartApi {
-    Logger log = LoggerFactory.getLogger(CartApi.class);
+    private static Logger log = LoggerFactory.getLogger(CartApi.class);
 
     private final CartService cartService;
     private final ProductService productService;
