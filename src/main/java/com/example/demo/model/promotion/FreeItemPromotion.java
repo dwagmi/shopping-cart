@@ -48,11 +48,12 @@ public class FreeItemPromotion extends Promotion {
     @Override
     public double applyPromotion(Cart cart) {
         log.info("applying promotion for " + super.getPromotionType());
-        return promotionProduct.getPrice() *
-                Math.max(
-                        findQtyOfProductInCart(cart, product),
-                        findQtyOfProductInCart(cart, promotionProduct)
-                );
+        int qtyOfProductInCart = findQtyOfProductInCart(cart, product);
+        int qtyOfPromoProductInCart = findQtyOfProductInCart(cart, promotionProduct);
+        log.info("item qtys");
+        log.info(String.valueOf(qtyOfProductInCart));
+        log.info(String.valueOf(qtyOfPromoProductInCart));
+        return promotionProduct.getPrice() * Math.min(qtyOfProductInCart, qtyOfPromoProductInCart);
     }
 
     private int findQtyOfProductInCart(Cart cart, Product p) {

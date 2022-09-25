@@ -79,7 +79,9 @@ public class CartService implements BaseCartService {
      * Add new product to cart
      */
     private void addNewCartItemWithQuantity(Cart cart, Product product, int quantity) {
-        cartItemRepository.save(new CartItem(cart, product, quantity));
+        if (validate(cart, product, quantity)) {
+            cartItemRepository.save(new CartItem(cart, product, quantity));
+        }
     }
 
     /**
@@ -98,5 +100,40 @@ public class CartService implements BaseCartService {
         log.info("Promotions applicable: " + promotions);
         cart.setPromotions(promotions);
         return cartRepository.save(cart);
+    }
+
+    /**
+     * Validates whether it is okay to add the requested quantity of product to
+     * the cart.
+     */
+    private boolean validate(Cart cart, Product product, int quantity) {
+        log.info("Current cartItems: " + cart.getCartItems());
+        log.info("Current products: " + cart.getProducts());
+
+        List<CartItem> cartItems = cart.getCartItems();
+        List<Product> productsInCart = cart.getProducts();
+
+        // Quantity requested to be added to cart exceeds product availability
+        if (quantity > product.getQuantity()) {
+            return false;
+        }
+
+        // Checks if product already exists in the cart
+        Optional<CartItem> optionalCartItem = cartItems.stream().filter(item -> item.getProduct().equals(product)).findFirst();
+        if (optionalCartItem.isPresent()) {
+            CartItem cartItem = optionalCartItem.get();
+
+            // Ensures that the resulting total quantity does not exceed product availability
+            if (cartItem.getQuantity() + quantity > product.getQuantity()) {
+                return false;
+            }
+        }
+
+        // Resulting quantity of product in cart after adding the new amount exceeds product availability
+        if (cartItems.isEmpty() || !cartItems.contains(product)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
