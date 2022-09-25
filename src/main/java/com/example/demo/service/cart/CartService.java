@@ -1,11 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.service.cart;
 
-import com.example.demo.model.Cart;
-import com.example.demo.model.CartItem;
-import com.example.demo.model.CheckoutSession;
-import com.example.demo.model.Product;
-import com.example.demo.repository.CartItemRepository;
-import com.example.demo.repository.CartRepository;
+import com.example.demo.model.cart.Cart;
+import com.example.demo.model.cart.CartItem;
+import com.example.demo.model.checkout.CheckoutSession;
+import com.example.demo.model.product.Product;
+import com.example.demo.repository.cart.CartItemRepository;
+import com.example.demo.repository.cart.CartRepository;
+import com.example.demo.repository.checkout.CheckoutSessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CartService implements BaseCartService {
     Logger log = LoggerFactory.getLogger(CartService.class);
 
     private final CartRepository cartRepository;
-
     private final CartItemRepository cartItemRepository;
+    private final CheckoutSessionRepository checkoutSessionRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, CheckoutSessionRepository checkoutSessionRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
+        this.checkoutSessionRepository = checkoutSessionRepository;
     }
 
     @Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
@@ -129,7 +130,8 @@ public class CartService implements BaseCartService {
     }
 
     public CheckoutSession checkout(Cart cart) {
-
-        return new CheckoutSession();
+        log.info("checking out " + cart);
+        CheckoutSession checkoutSession = checkoutSessionRepository.save(new CheckoutSession(cart));
+        return checkoutSession;
     }
 }

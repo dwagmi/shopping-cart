@@ -1,7 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repository.product;
 
-import com.example.demo.model.Product;
-import org.springframework.data.domain.Sort;
+import com.example.demo.model.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

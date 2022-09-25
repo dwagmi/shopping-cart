@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Cart;
-import com.example.demo.model.Product;
-import com.example.demo.repository.CartItemRepository;
-import com.example.demo.repository.CartRepository;
+import com.example.demo.model.cart.Cart;
+import com.example.demo.model.product.Product;
+import com.example.demo.repository.cart.CartItemRepository;
+import com.example.demo.repository.cart.CartRepository;
+import com.example.demo.repository.checkout.CheckoutSessionRepository;
+import com.example.demo.service.cart.CartService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -30,9 +32,12 @@ public class CartServiceTest {
     @Mock
     private CartItemRepository cartItemRepository;
 
+    @Mock
+    private CheckoutSessionRepository checkoutSessionRepository;
+
     @BeforeEach
     public void setUp() {
-        cartService = new CartService(mockCartRepository, cartItemRepository);
+        cartService = new CartService(mockCartRepository, cartItemRepository, checkoutSessionRepository);
         fakeProduct = new Product("sku-001", "Test Product", 34.99, 3);
         fakeCarts = new ArrayList<>();
         fakeEmptyCart = new Cart();

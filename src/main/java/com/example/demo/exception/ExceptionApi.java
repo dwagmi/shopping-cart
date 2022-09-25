@@ -1,4 +1,4 @@
-package com.example.demo.error;
+package com.example.demo.exception;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  */
 @RestController
 @ControllerAdvice
-public class ErrorApi extends ResponseEntityExceptionHandler implements ErrorController {
+public class ExceptionApi extends ResponseEntityExceptionHandler implements ErrorController {
 
     /**
      * Default error handling, used as a fall-back if no specific error handler

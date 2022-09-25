@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.cart;
 
-import com.example.demo.model.Cart;
-import com.example.demo.model.Product;
+import com.example.demo.model.cart.Cart;
+import com.example.demo.model.product.Product;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,5 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.model.cart;
 
+import com.example.demo.model.checkout.CheckoutSession;
+import com.example.demo.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,6 +19,10 @@ public class Cart {
     @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name="cart_id")
     private List<CartItem> cartItems = new ArrayList<>();
+
+//    @OneToOne
+//    @JoinColumn(name="cart_id")
+//    private CheckoutSession checkoutSession;
 
     public Long getId() {
         return id;

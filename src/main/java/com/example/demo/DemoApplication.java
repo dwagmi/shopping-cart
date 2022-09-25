@@ -1,11 +1,10 @@
 package com.example.demo;
 
-import com.example.demo.model.Cart;
-import com.example.demo.model.CartItem;
-import com.example.demo.model.Product;
-import com.example.demo.repository.CartItemRepository;
-import com.example.demo.repository.ProductRepository;
-import com.example.demo.service.CartService;
+import com.example.demo.model.cart.Cart;
+import com.example.demo.model.product.Product;
+import com.example.demo.repository.cart.CartItemRepository;
+import com.example.demo.repository.product.ProductRepository;
+import com.example.demo.service.cart.CartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

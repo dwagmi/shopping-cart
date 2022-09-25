@@ -1,10 +1,11 @@
 package com.example.demo.api;
 
-import com.example.demo.model.Cart;
-import com.example.demo.model.CheckoutSession;
-import com.example.demo.model.Product;
-import com.example.demo.service.CartService;
-import com.example.demo.service.ProductService;
+import com.example.demo.exception.ExceptionApi;
+import com.example.demo.model.cart.Cart;
+import com.example.demo.model.checkout.CheckoutSession;
+import com.example.demo.model.product.Product;
+import com.example.demo.service.cart.CartService;
+import com.example.demo.service.product.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class CartApi {
 
     /**
      * Adds a product to cart with the provided quantity. Exceptions are handled
-     * centrally in {@link com.example.demo.error.ErrorApi}
+     * centrally in {@link ExceptionApi}
      *
      * @param cartId
      * @param productId

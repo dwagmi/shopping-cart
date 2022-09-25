@@ -1,5 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.model.cart;
 
+import com.example.demo.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
