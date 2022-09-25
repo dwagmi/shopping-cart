@@ -26,7 +26,7 @@ public class DemoApplication {
 	public CommandLineRunner demo(ProductRepository productRepository, CartService cartService, CartItemRepository cartItemRepository) {
 		return (args) -> {
 			// Populate with fake data
-			Cart cart = cartService.getCartById(1L);
+			Cart cart = cartService.createCart();
 			log.info("Retrieved cart " + cart);
 			Product toAdd = productRepository.findById(1L).get();
 			log.info("Product to add: " + toAdd);

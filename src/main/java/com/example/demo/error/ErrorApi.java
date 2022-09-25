@@ -12,6 +12,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 
 /**
  * Default error handler will return 400 by default.
@@ -43,6 +45,23 @@ public class ErrorApi extends ResponseEntityExceptionHandler implements ErrorCon
     protected ResponseEntity<Object> handleConflict(
             RuntimeException e, WebRequest request) {
         String bodyOfResponse = "Input format is incorrect";
+        return handleExceptionInternal(e, bodyOfResponse,
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+
+
+    /**
+     * Handles requested resource is not found.
+     *
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(value = { NoSuchElementException.class })
+    protected ResponseEntity<Object> handleNoSuchElementException(
+            RuntimeException e, WebRequest request) {
+        String bodyOfResponse = "Resource cannot be found";
         return handleExceptionInternal(e, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.CONFLICT, request);
     }

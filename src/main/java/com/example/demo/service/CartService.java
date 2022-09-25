@@ -34,16 +34,26 @@ public class CartService implements BaseCartService {
         return cartRepository.findAllByOrderByIdAsc();
     }
 
+    /**
+     * Returns a cart with the provided id if it exists, otherwise returns null
+     *
+     * @param cartId
+     * @return
+     */
     @Override
     @Transactional(propagation= Propagation.REQUIRED, noRollbackFor=Exception.class)
-    public Cart getCartById(Long cartId) {
+    public Optional<Cart> findCartById(Long cartId) {
         Optional<Cart> optionalCart = cartRepository.findById(cartId);
-        if (optionalCart.isPresent()) {
-            return optionalCart.get();
-        }
-        Cart cart = cartRepository.save(new Cart());
-        log.info("Created a new cart with id: " + cart.getId());
-        return cart;
+        return optionalCart;
+    }
+
+    /**
+     * Creates a new cart and returns the new, empty cart.
+     *
+     * @return
+     */
+    public Cart createCart() {
+        return cartRepository.save(new Cart());
     }
 
     public Cart addProduct(Cart cart, Product product, int quantity) {
