@@ -107,11 +107,7 @@ public class CartService implements BaseCartService {
      * the cart.
      */
     private boolean validate(Cart cart, Product product, int quantity) {
-        log.info("Current cartItems: " + cart.getCartItems());
-        log.info("Current products: " + cart.getProducts());
-
         List<CartItem> cartItems = cart.getCartItems();
-        List<Product> productsInCart = cart.getProducts();
 
         // Quantity requested to be added to cart exceeds product availability
         if (quantity > product.getQuantity()) {
@@ -129,7 +125,7 @@ public class CartService implements BaseCartService {
             }
         }
 
-        // Resulting quantity of product in cart after adding the new amount exceeds product availability
+        // Check not already in cart
         if (cartItems.isEmpty() || !cartItems.contains(product)) {
             return true;
         } else {
