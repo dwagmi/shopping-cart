@@ -4,6 +4,7 @@ import com.example.demo.model.cart.Cart;
 import com.example.demo.model.cart.CartItem;
 import com.example.demo.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * A promotion applies to a specific product SKU.
  */
 @Entity
+@JsonDeserialize(as = FreeItemPromotion.class)
 @DiscriminatorColumn(name = "promotion_type")
 public abstract class Promotion {
 
@@ -30,7 +32,9 @@ public abstract class Promotion {
     @Column(name = "promotion_type", insertable = false, updatable = false)
     private String promotionType;
 
-    public Promotion() {}
+    public Promotion() {
+        super();
+    }
 
     public Promotion(Product product) {
         this.product = product;

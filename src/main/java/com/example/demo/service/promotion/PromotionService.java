@@ -1,6 +1,7 @@
 package com.example.demo.service.promotion;
 
 import com.example.demo.model.cart.Cart;
+import com.example.demo.model.product.Product;
 import com.example.demo.model.promotion.Promotion;
 import com.example.demo.repository.promotion.PromotionRepository;
 import org.slf4j.Logger;
@@ -27,7 +28,9 @@ public class PromotionService {
     }
 
     public List<Promotion> findPromotionsByProductId(Long productId) {
-        return promotionRepository.findByProductId(productId);
+        List<Promotion> promotions = promotionRepository.findByProductId(productId);
+        log.info("found promotions for productId " + productId + ": " + promotions);
+        return promotions;
     }
 
     /**
@@ -39,7 +42,12 @@ public class PromotionService {
      */
     public List<Promotion> findPromotionsByCart(Cart cart) {
         List<Promotion> promotions = new ArrayList<>();
-        cart.getProducts().forEach(product -> promotions.addAll(findPromotionsByProductId(product.getId())));
+        log.info("--- findPromotionsByCart --- for cart: " + cart);
+
+        List<Product> products = cart.getProducts();
+        log.info("Products in cart: " + products);
+
+        products.forEach(product -> promotions.addAll(findPromotionsByProductId(product.getId())));
         return promotions;
     }
 

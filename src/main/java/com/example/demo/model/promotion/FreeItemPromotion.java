@@ -47,7 +47,6 @@ public class FreeItemPromotion extends Promotion {
      */
     @Override
     public double applyPromotion(Cart cart) {
-        log.info("applying promotion for " + super.getPromotionType());
         int qtyOfProductInCart = findQtyOfProductInCart(cart, product);
         int qtyOfPromoProductInCart = findQtyOfProductInCart(cart, promotionProduct);
         return promotionProduct.getPrice() * Math.min(qtyOfProductInCart, qtyOfPromoProductInCart);
