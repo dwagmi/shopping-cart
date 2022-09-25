@@ -1,10 +1,8 @@
 package com.example.demo.model.checkout;
 
 import com.example.demo.model.cart.Cart;
-import com.example.demo.model.cart.CartItem;
 
 import javax.persistence.*;
-import java.text.DecimalFormat;
 
 @Entity
 public class CheckoutSession {
