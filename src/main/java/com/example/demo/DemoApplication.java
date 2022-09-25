@@ -2,9 +2,12 @@ package com.example.demo;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
+import com.example.demo.model.promotion.Promotion;
+import com.example.demo.model.promotion.VolumeDiscountPromotion;
 import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.product.ProductRepository;
 import com.example.demo.service.cart.CartService;
+import com.example.demo.service.promotion.PromotionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,7 +25,11 @@ public class DemoApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ProductRepository productRepository, CartService cartService, CartItemRepository cartItemRepository) {
+	public CommandLineRunner demo(ProductRepository productRepository,
+								  CartService cartService,
+								  CartItemRepository cartItemRepository,
+								  PromotionService promotionService
+	) {
 		return (args) -> {
 			// Populate with fake data
 			Cart cart = cartService.createCart();
@@ -48,7 +55,13 @@ public class DemoApplication {
 //			}
 
 			// Add promotions
+			Promotion promotion = new VolumeDiscountPromotion(toAdd, 3, 0.10);
+			log.info("Adding promotion: " + promotion);
+			promotionService.addPromotion(promotion);
 
+			for (Promotion p: promotionService.findAllPromotions()) {
+				System.out.println(p);
+			}
 		};
 	}
 

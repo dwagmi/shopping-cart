@@ -8,7 +8,7 @@ import javax.persistence.*;
  * A promotion applies to a specific product SKU.
  */
 @Entity
-public class Promotion {
+public abstract class Promotion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,4 +21,25 @@ public class Promotion {
     @JoinColumn(name = "product_id")
     public Product product;
 
+    public Promotion() {}
+
+    public Promotion(Product product) {
+        this.product = product;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    @Override
+    public String toString() {
+        return "Promotion{" +
+                "id=" + id +
+                ", product=" + product +
+                '}';
+    }
 }

@@ -27,4 +27,8 @@ public class PromotionService {
     public List<Promotion> findPromotionsByProductId(Long productId) {
         return promotionRepository.findByProductId(productId);
     }
+
+    public Promotion addPromotion(Promotion promotion) {
+        return promotionRepository.save(promotion);
+    }
 }
