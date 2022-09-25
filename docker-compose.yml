@@ -18,7 +18,10 @@ services:
       - "5432:5432"
 
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: ./fast.Dockerfile
+#      dockerfile: ./Dockerfile # For full build instead of using pre-built jar
     healthcheck:
       test: curl --fail http://localhost:8080/health || exit 1
       interval: 10s
