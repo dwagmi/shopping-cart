@@ -1,10 +1,12 @@
 package com.example.demo.model.promotion;
 
 import com.example.demo.model.cart.Cart;
+import com.example.demo.model.cart.CartItem;
 import com.example.demo.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 /**
  * A promotion applies to a specific product SKU.
@@ -60,6 +62,20 @@ public abstract class Promotion {
      * @return
      */
     public abstract double applyPromotion(Cart cart);
+
+    /**
+     * Concrete method in abstract base class to find qty of given product
+     */
+    protected int findQtyOfProductInCart(Cart cart, Product p) {
+        Optional<CartItem> optionalCartItem = cart.getCartItems()
+                .stream()
+                .filter(item -> item.getProduct().equals(p))
+                .findFirst();
+        if (!optionalCartItem.isPresent()) {
+            return 0;
+        }
+        return optionalCartItem.get().getQuantity();
+    }
 
     @Override
     public String toString() {

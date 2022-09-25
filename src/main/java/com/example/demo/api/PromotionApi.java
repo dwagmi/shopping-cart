@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/promotion")
 public class PromotionApi {
     private static Logger log = LoggerFactory.getLogger(PromotionApi.class);
 
@@ -26,7 +25,7 @@ public class PromotionApi {
         this.promotionService = promotionService;
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/promotions")
     public ResponseEntity<List<Promotion>> getAllPromotions() {
         List<Promotion> allPromotions = promotionService.findAllPromotions();
         log.info("Retrieved all promotions: " + allPromotions);

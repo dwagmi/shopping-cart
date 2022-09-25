@@ -40,7 +40,7 @@ public class Cart {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart_promotion", inverseJoinColumns = { @JoinColumn(name = "promotion_id") })
-    private Set<Promotion> promotions;
+    private Set<Promotion> promotions = new HashSet<>();
 
     /**
      * Returns the cart id

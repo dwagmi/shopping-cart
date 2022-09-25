@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cart")
 public class CartApi {
     private static Logger log = LoggerFactory.getLogger(CartApi.class);
 
@@ -33,20 +32,23 @@ public class CartApi {
         this.checkoutService = checkoutService;
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/carts")
     public ResponseEntity<List<Cart>> getAllCarts() {
         List<Cart> allCarts = cartService.getAllCarts();
         log.info("Retrieved all carts: " + allCarts);
         return ResponseEntity.status(HttpStatus.OK).body(allCarts);
     }
 
-    @PostMapping(path="/new")
+    /**
+     * TODO: Change to post
+     */
+    @GetMapping(path="/cart/new")
     public ResponseEntity<Cart> createNewCart() {
         Cart newCart = cartService.createCart();
         return ResponseEntity.status(HttpStatus.OK).body(newCart);
     }
 
-    @GetMapping(path="/{cartId}")
+    @GetMapping(path="/cart/{cartId}")
     public ResponseEntity<Optional<Cart>> findCartById(@PathVariable Long cartId) {
         Optional<Cart> optionalCart = cartService.findCartById(cartId);
         log.info("Retrieved cart: " + optionalCart);
@@ -54,17 +56,11 @@ public class CartApi {
     }
 
     // TODO: Change to POST
-
     /**
      * Adds a product to cart with the provided quantity. Exceptions are handled
      * centrally in {@link ExceptionApi}
-     *
-     * @param cartId
-     * @param productId
-     * @param quantity
-     * @return
      */
-    @GetMapping(path="/{cartId}/{productId}/{quantity}")
+    @GetMapping(path="cart/{cartId}/{productId}/{quantity}")
     public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable int quantity) throws Exception {
         // Look up and retrieve cart from provided id.
         Optional<Cart> optionalCart = cartService.findCartById(cartId);
@@ -83,7 +79,7 @@ public class CartApi {
     }
 
     // TODO: Change to POST
-    @GetMapping(path="/checkout/{cartId}")
+    @GetMapping(path="checkout/{cartId}")
     public ResponseEntity<CheckoutSession> checkout(@PathVariable Long cartId) {
         // Look up and retrieve cart from provided id.
         Optional<Cart> optionalCart = cartService.findCartById(cartId);

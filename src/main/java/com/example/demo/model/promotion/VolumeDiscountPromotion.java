@@ -34,7 +34,8 @@ public class VolumeDiscountPromotion extends Promotion {
 
     @Override
     public double applyPromotion(Cart cart) {
-        return 0.0;
+        int qtyInCart = findQtyOfProductInCart(cart, product);
+        return qtyInCart >= thresholdQuantity ? qtyInCart * product.getPrice() * percentDiscount : 0.0;
     }
 
     @Override

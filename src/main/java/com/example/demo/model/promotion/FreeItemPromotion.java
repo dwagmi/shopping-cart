@@ -53,17 +53,6 @@ public class FreeItemPromotion extends Promotion {
         return promotionProduct.getPrice() * Math.min(qtyOfProductInCart, qtyOfPromoProductInCart);
     }
 
-    private int findQtyOfProductInCart(Cart cart, Product p) {
-        Optional<CartItem> optionalCartItem = cart.getCartItems()
-                .stream()
-                .filter(item -> item.getProduct().equals(p))
-                .findFirst();
-        if (!optionalCartItem.isPresent()) {
-            return 0;
-        }
-        return optionalCartItem.get().getQuantity();
-    }
-
     @Override
     public String toString() {
         return "FreeItemPromotion{" +
