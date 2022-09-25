@@ -9,6 +9,7 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     /**
@@ -38,6 +39,10 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Cart getCart() {

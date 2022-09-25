@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,14 @@ public class Cart {
         return id;
     }
 
+
+    /**
+     * Returns the items in the cart, sorted by cartItem id
+     *
+     * @return
+     */
     public List<CartItem> getCartItems() {
+        cartItems.sort(Comparator.comparing(CartItem::getId));
         return cartItems;
     }
 
@@ -46,10 +54,6 @@ public class Cart {
             products.add(cartItem.getProduct());
         }
         return products;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 
     @Override
