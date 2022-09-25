@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
+import com.example.demo.model.promotion.FreeItemPromotion;
+import com.example.demo.model.promotion.MultiBuyPromotion;
 import com.example.demo.model.promotion.Promotion;
 import com.example.demo.model.promotion.VolumeDiscountPromotion;
 import com.example.demo.repository.cart.CartItemRepository;
@@ -34,10 +36,13 @@ public class DemoApplication {
 			// Populate with fake data
 			Cart cart = cartService.createCart();
 			log.info("Retrieved cart " + cart);
-			Product toAdd = productRepository.findById(1L).get();
-			log.info("Product to add: " + toAdd);
+			Product googleHome = productRepository.findById(1L).get();
+			Product macbook = productRepository.findById(2L).get();
+			Product alexa = productRepository.findById(3L).get();
+			Product pi = productRepository.findById(4L).get();
+			log.info("Product to add: " + macbook);
 //			cartService.addProduct(cart, new Product("sku-001", "Computer", 39.99, 5), 3);
-			cartService.addProduct(cart, toAdd, 3);
+			cartService.addProduct(cart, macbook, 3);
 
 			// Get all products
 			for (Product product: productRepository.findAll()) {
@@ -55,9 +60,12 @@ public class DemoApplication {
 //			}
 
 			// Add promotions
-			Promotion promotion = new VolumeDiscountPromotion(toAdd, 3, 0.10);
-			log.info("Adding promotion: " + promotion);
-			promotionService.addPromotion(promotion);
+			// Buying more than 3 Alexa Speakers will have a 10% discount on all Alexa speakers
+			promotionService.addPromotion(new VolumeDiscountPromotion(alexa, 3, 0.10));
+			// Each sale of a MacBook Pro comes with a free Raspberry Pi B
+			promotionService.addPromotion(new FreeItemPromotion(macbook, pi));
+			// Buy 3 Google Homes for the price of 2
+			promotionService.addPromotion(new MultiBuyPromotion(googleHome, 2, 3));
 
 			for (Promotion p: promotionService.findAllPromotions()) {
 				System.out.println(p);

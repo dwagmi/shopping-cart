@@ -12,6 +12,11 @@ http://localhost:8080/docs
 In-memory H2 database. 
 Console available at http://localhost:8080/h2-console
 
+### Hibernate inheritance 
+- Used for Promotion parent class to child Promotion classes 
+- https://www.baeldung.com/hibernate-inheritance
+
+
 ## Assumptions 
 
 - Items have to be added to cart for freeItem promotion to apply, it is not automatically added. 
@@ -25,3 +30,6 @@ Console available at http://localhost:8080/h2-console
 - Handle negative quantities.
 - Handling out of stock/optimistic updates
 - Refactor clean code, extract out repeat funcs
+- Make it more robust to be production ready - 
+  - which parts can be read-only/immutable
+  - concurrent updates. 
