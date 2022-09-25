@@ -1,6 +1,5 @@
 package com.example.demo.model.cart;
 
-import com.example.demo.model.checkout.CheckoutSession;
 import com.example.demo.model.product.Product;
 import com.example.demo.model.promotion.Promotion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,6 +17,10 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Cart items belonging to a cart are almost always required when a Cart
+     * look-up is made, so cart items are fetched eagerly.
+     */
     @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name="cart_id")
     private List<CartItem> cartItems = new ArrayList<>();
@@ -26,14 +29,16 @@ public class Cart {
      * A Cart can include multiple promotions, and a promotion
      * can be applied to multiple Carts - a mapping table is used to
      * model the many-to-many relationship.
+     *
+     * Similar to cart items, a cart's promotions are also fetched eagerly.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_promotion",
             inverseJoinColumns = { @JoinColumn(name = "promotion_id") }
     )
     private Set<Promotion> promotions;
-    
+
     public Long getId() {
         return id;
     }
@@ -67,6 +72,28 @@ public class Cart {
             products.add(cartItem.getProduct());
         }
         return products;
+    }
+
+    /**
+     * Calculates the total cost of items in the cart after discount
+     */
+    public double calculateNetTotal() {
+        double netTotal = 0;
+        netTotal += calculateGrossTotal();
+
+        // Mutates the given cart with the promotion.
+        for (Promotion promotion: promotions) {
+            promotion.applyPromotion(this);
+        }
+        return netTotal;
+    }
+
+    private double calculateGrossTotal() {
+        double grossTotal = 0;
+        for (CartItem cartItem: getCartItems()) {
+            grossTotal += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+        }
+        return grossTotal;
     }
 
     @Override

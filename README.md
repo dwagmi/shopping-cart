@@ -34,3 +34,4 @@ Console available at http://localhost:8080/h2-console
 - Make it more robust to be production ready - 
   - which parts can be read-only/immutable
   - concurrent updates. 
+- Ensure that invalid promotions cannot be applied - add validator

@@ -25,34 +25,12 @@ public class CheckoutSession {
         this.cart = cart;
     }
 
-    /**
-     * Calculates the total cost of items in the cart after discount
-     *
-     * @param cart
-     * @return
-     */
-    private double calculateNetTotal(Cart cart) {
-        double netTotal = 0;
-        netTotal += calculateGrossTotal(cart);
-
-        // TODO: Find promotions and apply them to the checkout.
-        return netTotal;
-    }
-
-    private double calculateGrossTotal(Cart cart) {
-        double grossTotal = 0;
-        for (CartItem cartItem: cart.getCartItems()) {
-            grossTotal += cartItem.getProduct().getPrice() * cartItem.getQuantity();
-        }
-        return grossTotal;
-    }
-
     public Cart getCart() {
         return cart;
     }
 
     public String getTotal() {
-        return df.format(calculateNetTotal(cart));
+        return df.format(cart.calculateNetTotal());
     }
 
     public void setCart(Cart cart) {
