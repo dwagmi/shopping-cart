@@ -31,9 +31,9 @@ public class ExceptionApi extends ResponseEntityExceptionHandler implements Erro
      */
     @RequestMapping(value = "/error")
     public ResponseEntity<String> error() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request: Input is in the wrong format or the requested quantity is unavailable");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Bad request: Input is in the wrong format or the requested quantity is unavailable");
     }
-
 
     /**
      * Handles type mismatches in path variables of API request.

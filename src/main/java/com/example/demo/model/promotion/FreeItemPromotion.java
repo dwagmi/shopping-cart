@@ -32,8 +32,8 @@ public class FreeItemPromotion extends Promotion {
         this.promotionProduct = promotionProduct;
     }
 
-    public Product getPromotionProduct() {
-        return promotionProduct;
+    public String getFreeProduct() {
+        return promotionProduct.getName();
     }
 
     /**
