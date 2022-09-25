@@ -8,9 +8,6 @@ import java.text.DecimalFormat;
 
 @Entity
 public class CheckoutSession {
-
-    private static final DecimalFormat df = new DecimalFormat("0.00");
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -27,10 +24,6 @@ public class CheckoutSession {
 
     public Cart getCart() {
         return cart;
-    }
-
-    public String getTotal() {
-        return df.format(cart.calculateNetTotal());
     }
 
     public void setCart(Cart cart) {

@@ -3,15 +3,27 @@ package com.example.demo.model.cart;
 import com.example.demo.model.product.Product;
 import com.example.demo.model.promotion.Promotion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Domain model of the shopping cart.
+ *
+ * Holds cart items (product + quantity), applicable promotions, as well as calculates
+ * the gross, net and savings amounts of the cart.
+ *
+ * {@link JsonPropertyOrder} is used to specify the order of fields in the API response.
+ */
 @Entity
+@JsonPropertyOrder({ "id", "cartItems", "promotions", "grossTotal", "savings", "netTotal" })
 public class Cart {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +39,7 @@ public class Cart {
 
     /**
      * A Cart can include multiple promotions, and a promotion
-     * can be applied to multiple Carts - a mapping table is used to
+     * can be applied to multiple Carts - a join table is used to
      * model the many-to-many relationship.
      *
      * Similar to cart items, a cart's promotions are also fetched eagerly.
@@ -43,8 +55,42 @@ public class Cart {
         return id;
     }
 
+    /**
+     * Returns the set of promotions applicable to the current cart.
+     *
+     * Whenever the cart is updated,
+     * {@link com.example.demo.service.cart.CartService} searches for applicable
+     * promotions through {@link com.example.demo.service.promotion.PromotionService}
+     * and adds them to this set.
+     */
     public Set<Promotion> getPromotions() {
         return promotions;
+    }
+
+    /**
+     * Calculates and returns the cart's gross total before promotions are
+     * applied, as a formatted string to 2dp.
+     * Net, gross and savings value are functional instead of instance variables
+     * to ensure stale state is not retained and returned by accident.
+     */
+    public String getGrossTotal() {
+        return df.format(calculateGrossTotal());
+    }
+
+    /**
+     * Calculates and returns amount saved from promotions
+     */
+    public String getSavings() {
+        return df.format(calculateGrossTotal() - calculateNetTotal());
+    }
+
+    /**
+     * Calculates and returns the cart's net total after promotions are applied,
+     * as a formatted string to 2dp.
+     *
+     */
+    public String getNetTotal() {
+        return df.format(calculateNetTotal());
     }
 
     /**
@@ -77,7 +123,7 @@ public class Cart {
     /**
      * Calculates the total cost of items in the cart after discount
      */
-    public double calculateNetTotal() {
+    private double calculateNetTotal() {
         double netTotal = 0;
         netTotal += calculateGrossTotal();
 
@@ -88,6 +134,9 @@ public class Cart {
         return netTotal;
     }
 
+    /**
+     * Calculates the total cost of items before discount
+     */
     private double calculateGrossTotal() {
         double grossTotal = 0;
         for (CartItem cartItem: getCartItems()) {
