@@ -3,6 +3,7 @@ package com.example.demo.api;
 import com.example.demo.exception.ExceptionApi;
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.checkout.CheckoutSession;
+import com.example.demo.model.exception.CartNotFoundException;
 import com.example.demo.model.product.Product;
 import com.example.demo.service.cart.CartService;
 import com.example.demo.service.checkout.CheckoutService;
@@ -17,6 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * REST API endpoint for the cart service.
+ *
+ * Exposes endpoints to view, add to, remove from, and
+ * checkout shopping carts.
+ *
+ * Exceptions are handled centrally in {@link ExceptionApi}
+ */
 @RestController
 public class CartApi {
     private static Logger log = LoggerFactory.getLogger(CartApi.class);
@@ -39,32 +48,31 @@ public class CartApi {
         return ResponseEntity.status(HttpStatus.OK).body(allCarts);
     }
 
-    /**
-     * TODO: Change to post
-     */
-    @GetMapping(path="/cart/new")
+    @GetMapping(path="/cart/{cartId}")
+    public ResponseEntity<Cart> findCartById(@PathVariable Long cartId) throws CartNotFoundException {
+        Cart cart = cartService.findCartById(cartId);
+        log.info("Retrieved cart: " + cart);
+        return ResponseEntity.status(HttpStatus.OK).body(cart);
+    }
+
+    @PostMapping(path="/cart/new")
     public ResponseEntity<Cart> createNewCart() {
         Cart newCart = cartService.createCart();
         return ResponseEntity.status(HttpStatus.OK).body(newCart);
     }
 
-    @GetMapping(path="/cart/{cartId}")
-    public ResponseEntity<Optional<Cart>> findCartById(@PathVariable Long cartId) {
-        Optional<Cart> optionalCart = cartService.findCartById(cartId);
-        log.info("Retrieved cart: " + optionalCart);
-        return ResponseEntity.status(HttpStatus.OK).body(optionalCart);
-    }
-
-    // TODO: Change to POST
     /**
-     * Adds a product to cart with the provided quantity. Exceptions are handled
-     * centrally in {@link ExceptionApi}
+     * Adds/increments a product to cart with the provided quantity.
+     * If the provided quantity will result in the cart having a greater
+     * quantity than is available for the product, an exception will be thrown -
+     * {@link com.example.demo.model.exception.QuantityUnavailableException}
      */
-    @GetMapping(path="cart/{cartId}/{productId}/{quantity}")
+    @PostMapping(path="cart/{cartId}/{productId}/{quantity}")
     public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable int quantity) throws Exception {
+        log.info("--- cartAPI addProductToCart ---");
+
         // Look up and retrieve cart from provided id.
-        Optional<Cart> optionalCart = cartService.findCartById(cartId);
-        Cart cart = optionalCart.get();
+        Cart cart = cartService.findCartById(cartId);
         log.info("Retrieved cart: " + cart);
 
         // Look up and retrieve product from provided id.
@@ -74,16 +82,41 @@ public class CartApi {
 
         // Add to cart
         Cart newCart = cartService.addProduct(cart, product, quantity);
+        log.info("--- cartAPI addProductToCart --- Returning new cart after addProductToCart: " + newCart);
+
+        return ResponseEntity.status(HttpStatus.OK).body(newCart);
+    }
+
+    /**
+     * Decrements a product to cart by the provided quantity.
+     * If provided quantity is greater than quantity in cart,
+     * the cartItem is entirely deleted.
+     */
+    @DeleteMapping (path="cart/{cartId}/{productId}/{quantity}")
+    public ResponseEntity<Cart> removeProductFromCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable int quantity) throws Exception {
+        log.info("--- cartAPI removeProductToCart ---");
+
+        // Look up and retrieve cart from provided id.
+        Cart cart = cartService.findCartById(cartId);
+        log.info("Retrieved cart: " + cart);
+
+        // Look up and retrieve product from provided id.
+        Optional<Product>  optionalProduct = productService.findProductById(productId);
+        Product product = optionalProduct.get();
+        log.info("Retrieved product: " + product);
+
+        // Decrement cart
+        Cart newCart = cartService.removeProduct(cart, product, quantity);
+        log.info("--- cartAPI --- Returning new cart after removeProductFromCart: " + newCart);
 
         return ResponseEntity.status(HttpStatus.OK).body(newCart);
     }
 
     // TODO: Change to POST
     @GetMapping(path="checkout/{cartId}")
-    public ResponseEntity<CheckoutSession> checkout(@PathVariable Long cartId) {
+    public ResponseEntity<CheckoutSession> checkout(@PathVariable Long cartId) throws CartNotFoundException {
         // Look up and retrieve cart from provided id.
-        Optional<Cart> optionalCart = cartService.findCartById(cartId);
-        Cart cart = optionalCart.get();
+        Cart cart = cartService.findCartById(cartId);
         log.info("Retrieved cart: " + cart);
 
         CheckoutSession checkoutSession = checkoutService.checkout(cart);

@@ -128,6 +128,15 @@ public class Cart {
     }
 
     /**
+     * Checks if product is in cart and returns the
+     * corresponding cartItem or null
+     */
+    @JsonIgnore
+    public Optional<CartItem> contains(Product p) {
+        return getCartItems().stream().filter(item -> item.getProduct().equals(p)).findFirst();
+    }
+
+    /**
      * Calculates the total cost of items before discount
      */
     private double calculateGrossTotal() {
