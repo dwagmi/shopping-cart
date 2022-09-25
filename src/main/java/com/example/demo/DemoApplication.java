@@ -46,6 +46,9 @@ public class DemoApplication {
 //			for (CartItem c: cartItemRepository.findAll()) {
 //				System.out.println(c);
 //			}
+
+			// Add promotions
+
 		};
 	}
 

@@ -5,6 +5,7 @@ import com.example.demo.model.cart.Cart;
 import com.example.demo.model.checkout.CheckoutSession;
 import com.example.demo.model.product.Product;
 import com.example.demo.service.cart.CartService;
+import com.example.demo.service.checkout.CheckoutService;
 import com.example.demo.service.product.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +23,14 @@ public class CartApi {
     Logger log = LoggerFactory.getLogger(CartApi.class);
 
     private final CartService cartService;
-
     private final ProductService productService;
+    private final CheckoutService checkoutService;
 
     @Autowired
-    public CartApi(CartService cartService, ProductService productService) {
+    public CartApi(CartService cartService, ProductService productService, CheckoutService checkoutService) {
         this.cartService = cartService;
         this.productService = productService;
+        this.checkoutService = checkoutService;
     }
 
     @GetMapping(path="/all")
@@ -88,7 +90,7 @@ public class CartApi {
         Cart cart = optionalCart.get();
         log.info("Retrieved cart: " + cart);
 
-        CheckoutSession checkoutSession = cartService.checkout(cart);
+        CheckoutSession checkoutSession = checkoutService.checkout(cart);
 
         return ResponseEntity.status(HttpStatus.OK).body(checkoutSession);
     }

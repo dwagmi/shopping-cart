@@ -26,7 +26,7 @@ public class ProductApi {
 
     @RequestMapping(method = RequestMethod.GET, value="/products")
     public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> allProducts = productService.getAllProducts();
+        List<Product> allProducts = productService.findAllProducts();
         log.info("Retrieved all products: " + allProducts);
         return ResponseEntity.status(HttpStatus.OK).body(allProducts);
     }

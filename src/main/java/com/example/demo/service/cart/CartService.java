@@ -130,22 +130,5 @@ public class CartService implements BaseCartService {
         }
     }
 
-    public CheckoutSession checkout(Cart cart) {
-        log.info("checking out " + cart);
 
-        Optional<CheckoutSession> optionalCheckoutSession = checkoutSessionRepository.findByCartId(cart.getId());
-
-        if (optionalCheckoutSession.isPresent()) {
-            // Retrieves checkoutSession for the cart, if it exists
-            log.info("found checkoutSession for cart " + cart.getId() + ": " + optionalCheckoutSession.get());
-
-            CheckoutSession checkoutSession = optionalCheckoutSession.get();
-            checkoutSession.setCart(cart);
-            return checkoutSession;
-        } else {
-            // Creates a new checkout session
-            CheckoutSession checkoutSession = checkoutSessionRepository.save(new CheckoutSession(cart));
-            return checkoutSession;
-        }
-    }
 }
