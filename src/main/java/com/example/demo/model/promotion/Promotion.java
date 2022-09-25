@@ -9,6 +9,7 @@ import javax.persistence.*;
  * A promotion applies to a specific product SKU.
  */
 @Entity
+@DiscriminatorColumn(name = "promotion_type")
 public abstract class Promotion {
 
     @Id
@@ -22,6 +23,9 @@ public abstract class Promotion {
     @JoinColumn(name = "product_id")
     public Product product;
 
+    @Column(name = "promotion_type", insertable = false, updatable = false)
+    private String promotionType;
+
     public Promotion() {}
 
     public Promotion(Product product) {
@@ -30,6 +34,10 @@ public abstract class Promotion {
 
     public Long getId() {
         return id;
+    }
+
+    public String getPromotionType() {
+        return promotionType;
     }
 
     public Product getProduct() {
