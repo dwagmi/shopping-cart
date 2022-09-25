@@ -1,15 +1,11 @@
 package com.example.demo.model.promotion;
 
 import com.example.demo.model.cart.Cart;
-import com.example.demo.model.cart.CartItem;
 import com.example.demo.model.product.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Optional;
 
 /**
  * Free Item promotion:
@@ -19,13 +15,13 @@ import java.util.Optional;
  */
 @Entity
 public class FreeItemPromotion extends Promotion {
-    private static Logger log = LoggerFactory.getLogger(FreeItemPromotion.class);
 
     @ManyToOne
     @JoinColumn(name = "promotion_product_id")
     private Product promotionProduct;
 
-    public FreeItemPromotion() {}
+    public FreeItemPromotion() {
+    }
 
     public FreeItemPromotion(Product product, Product promotionProduct) {
         super(product);
@@ -37,11 +33,14 @@ public class FreeItemPromotion extends Promotion {
     }
 
     /**
-     * If the required product is in the cart, then the cost of the promotional product
+     * If the required product is in the cart, then the cost of the promotional
+     * product
      * is deducted, if it exists in the cart.
      *
-     * If there is >1 required product in the cart, then the cost of each promotional product
-     * that exists in the cart is deducted, up to the quantity of the required product.
+     * If there is >1 required product in the cart, then the cost of each
+     * promotional product
+     * that exists in the cart is deducted, up to the quantity of the required
+     * product.
      *
      * @return total amount saved by applying this promotion
      */

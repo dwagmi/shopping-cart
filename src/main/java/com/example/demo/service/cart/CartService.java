@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +30,8 @@ public class CartService implements BaseCartService {
     private final CartItemRepository cartItemRepository;
 
     @Autowired
-    public CartService(PromotionService promotionService, CartRepository cartRepository, CartItemRepository cartItemRepository) {
+    public CartService(PromotionService promotionService, CartRepository cartRepository,
+            CartItemRepository cartItemRepository) {
         this.promotionService = promotionService;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
@@ -66,20 +65,22 @@ public class CartService implements BaseCartService {
     }
 
     /**
-     * Adds product to cart or update if already in cart. Then search and refresh promotions
+     * Adds product to cart or update if already in cart. Then search and refresh
+     * promotions
      * applicable to cart.
      */
     public Cart addProduct(Cart cart, Product product, int quantity) throws Exception {
         log.info("--- addProduct --- Adding " + quantity + " of product " + product + " to " + cart);
 
-        if (quantity < 1) throw new NegativeAddQuantityException(CANNOT_ADD_NEGATIVE_AMOUNT);
+        if (quantity < 1)
+            throw new NegativeAddQuantityException(CANNOT_ADD_NEGATIVE_AMOUNT);
 
         Optional<CartItem> optionalCartItem = cart.contains(product);
         if (optionalCartItem.isPresent()) {
             CartItem cartItem = optionalCartItem.get();
             log.info("Product already in cart, updating quantity only");
 
-            if (cartItem.getQuantity() + quantity  > product.getQuantity()) {
+            if (cartItem.getQuantity() + quantity > product.getQuantity()) {
                 throw new QuantityUnavailableException(QUANTITY_UNAVAILABLE);
             }
 
@@ -94,7 +95,8 @@ public class CartService implements BaseCartService {
     }
 
     /**
-     * Decreases quantity of product in cart, or removes it. Then search and refresh promotions
+     * Decreases quantity of product in cart, or removes it. Then search and refresh
+     * promotions
      * applicable to cart.
      */
     public Cart removeProduct(Cart cart, Product product, int quantity) throws Exception {
@@ -112,7 +114,7 @@ public class CartService implements BaseCartService {
 
         CartItem cartItem = optionalCartItem.get();
 
-        if (cartItem.getQuantity() - quantity <= 0 ) {
+        if (cartItem.getQuantity() - quantity <= 0) {
             deleteCartItem(cart, cartItem);
         } else {
             updateExistingCartItemQuantity(cartItem, cartItem.getQuantity() - quantity);
@@ -183,11 +185,13 @@ public class CartService implements BaseCartService {
         }
 
         // Checks if product already exists in the cart
-        Optional<CartItem> optionalCartItem = cartItems.stream().filter(item -> item.getProduct().equals(product)).findFirst();
+        Optional<CartItem> optionalCartItem = cartItems.stream().filter(item -> item.getProduct().equals(product))
+                .findFirst();
         if (optionalCartItem.isPresent()) {
             CartItem cartItem = optionalCartItem.get();
 
-            // Ensures that the resulting total quantity does not exceed product availability
+            // Ensures that the resulting total quantity does not exceed product
+            // availability
             if (cartItem.getQuantity() + quantity > product.getQuantity()) {
                 return false;
             }

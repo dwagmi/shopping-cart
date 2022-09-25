@@ -1,6 +1,5 @@
 package com.example.demo.api;
 
-import com.example.demo.model.cart.Cart;
 import com.example.demo.model.promotion.Promotion;
 import com.example.demo.service.promotion.PromotionService;
 import org.slf4j.Logger;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class PromotionApi {
         this.promotionService = promotionService;
     }
 
-    @GetMapping(path="/promotions")
+    @GetMapping(path = "/promotions")
     public ResponseEntity<List<Promotion>> getAllPromotions() {
         List<Promotion> allPromotions = promotionService.findAllPromotions();
         log.info("Retrieved all promotions: " + allPromotions);

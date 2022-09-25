@@ -16,16 +16,15 @@ public class CheckoutService implements BaseCheckoutService {
     private static Logger log = LoggerFactory.getLogger(CheckoutService.class);
 
     private final CheckoutSessionRepository checkoutSessionRepository;
-    private final PromotionService promotionService;
 
     @Autowired
-    public CheckoutService(CheckoutSessionRepository checkoutSessionRepository, PromotionService promotionService) {
+    public CheckoutService(CheckoutSessionRepository checkoutSessionRepository) {
         this.checkoutSessionRepository = checkoutSessionRepository;
-        this.promotionService = promotionService;
     }
 
     /**
-     * Return a checkoutSession to be passed to a payment gateway to convert into an Order.
+     * Return a checkoutSession to be passed to a payment gateway to convert into an
+     * Order.
      *
      * @param cart
      * @return
@@ -34,7 +33,6 @@ public class CheckoutService implements BaseCheckoutService {
         log.info("checking out " + cart);
 
         // Find and apply promotions to the cart
-
 
         CheckoutSession checkoutSession;
         Optional<CheckoutSession> optionalCheckoutSession = checkoutSessionRepository.findByCartId(cart.getId());

@@ -47,8 +47,7 @@ public class CartApiIntegrationTest {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
-                }
-        );
+                });
 
         List<Cart> result = response.getBody();
 
@@ -63,8 +62,7 @@ public class CartApiIntegrationTest {
                 HttpMethod.POST,
                 null,
                 new ParameterizedTypeReference<>() {
-                }
-        );
+                });
 
         Cart cart = response.getBody();
 
@@ -76,7 +74,8 @@ public class CartApiIntegrationTest {
     @Disabled
     public void givenCartApi_whenPostAddToCart_thenShouldReturnUpdatedCart() {
         Long cartId = 1L;
-//        Product product = productRepository.save(new Product("sku-001", "Test product", 39.99, 5));
+        // Product product = productRepository.save(new Product("sku-001", "Test
+        // product", 39.99, 5));
         Product product = productRepository.findById(3L).get();
         int quantity = 1;
 
@@ -87,29 +86,17 @@ public class CartApiIntegrationTest {
                 HttpMethod.POST,
                 null,
                 new ParameterizedTypeReference<>() {
-                }
-        );
+                });
 
         Cart cart = response.getBody();
 
         log.info(cart.toString());
 
-        Optional<CartItem> optionalCartItem = cart.getCartItems().stream().filter(item -> item.getProduct().getSku().equals(product.getSku())).findFirst();
+        Optional<CartItem> optionalCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getSku().equals(product.getSku())).findFirst();
         boolean productExistsInCart = optionalCartItem.isPresent();
         assertTrue(cart instanceof Cart);
         assertTrue(productExistsInCart);
         assertEquals(optionalCartItem.get().getQuantity(), quantity);
     }
-
-//    @Test
-//    public void givenCartApi_whenCartEligibleForBuyXGetXPromotion_thenShouldApplyPromotion() {
-//        ResponseEntity<Cart> response = restTemplate.exchange(
-//                getCartsUrl(),
-//                HttpMethod.POST,
-//                null,
-//                new ParameterizedTypeReference<List<Cart>>() {}
-//        );
-//    }
-
-
 }
