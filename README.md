@@ -20,3 +20,4 @@ Console available at http://localhost:8080/h2-console
 - Make it more robust. 
 - Add a frontend. 
 - Handle negative quantities.
+- Handling out of stock/optimistic updates

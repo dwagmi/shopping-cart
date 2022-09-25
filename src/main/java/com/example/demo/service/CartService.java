@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService implements BaseCartService {
@@ -58,17 +59,71 @@ public class CartService implements BaseCartService {
 
     public Cart addProduct(Cart cart, Product product, int quantity) {
         log.info("Adding " + quantity + " of product " + product + " to " + cart);
-        List<CartItem> cartItems = cart.getCartItems();
-        log.info("Current cartItems: " + cartItems);
-        if (cartItems.isEmpty() || (!cartItems.contains(product) && quantity <= product.getQuantity())) {
-            log.info("Item is OK to add");
-            cartItemRepository.save(new CartItem(cart, product, quantity));
-            cart = cartRepository.findById(cart.getId()).get();
-            log.info("New cartItems: " + cartItems);
-            log.info("New cart: " + cart);
-        } else {
-            log.info ("Nothing to save");
+
+        // Checks if product already exists in the cart, if it does, update the quantity
+        Optional<CartItem> optionalCartItem = cart.getCartItems().stream().filter(item -> item.getProduct().equals(product)).findFirst();
+        if (optionalCartItem.isPresent()) {
+            CartItem cartItem = optionalCartItem.get();
+            cartItem.setQuantity(quantity);
+            cartItemRepository.save(cartItem);
+            return cartRepository.findById(cart.getId()).get();
         }
-        return cart;
+
+
+        if (isOkToAdd(cart, product, quantity)) {
+            log.info("Item is OK to add");
+
+            // Saves the new cartItem and then retrieves the updated cart
+            cartItemRepository.save(new CartItem(cart, product, quantity));
+            Cart newCart = cartRepository.findById(cart.getId()).get();
+
+            log.info("New cartItems: " + newCart.getCartItems());
+            log.info("New cart: " + newCart);
+            return newCart;
+        } else {
+            log.info ("Nothing to add");
+            return cart;
+        }
+    }
+
+    /**
+     * Validates whether it is Ok to add the requested quantity of product to
+     * the cart.
+     *
+     * TODO: Throw custom exceptions to be handled and returned by REST endpoint.
+     *
+     * @param cart
+     * @param product
+     * @param quantity
+     * @return
+     */
+    private boolean isOkToAdd(Cart cart, Product product, int quantity) {
+        log.info("Current cartItems: " + cart.getCartItems());
+        log.info("Current products: " + cart.getProducts());
+
+        List<CartItem> cartItems = cart.getCartItems();
+        List<Product> productsInCart = cart.getProducts();
+
+        // Quantity requested to be added to cart exceeds product availability
+        if (quantity > product.getQuantity()) {
+            return false;
+        }
+
+        // Checks if product already exists in the cart
+        Optional<CartItem> optionalCartItem = cartItems.stream().filter(item -> item.getProduct().equals(product)).findFirst();
+        if (optionalCartItem.isPresent()) {
+                CartItem cartItem = optionalCartItem.get();
+                // Ensures that the resulting total quantity does not exceed product availability
+                if (cartItem.getQuantity() + quantity > product.getQuantity()) {
+                    return false;
+                }
+        }
+
+        // Resulting quantity of product in cart after adding the new amount exceeds product availability
+        if (cartItems.isEmpty() || !cartItems.contains(product)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

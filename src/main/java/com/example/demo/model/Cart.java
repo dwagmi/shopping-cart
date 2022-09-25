@@ -34,6 +34,20 @@ public class Cart {
         return cartItems.size();
     }
 
+    /**
+     * Extracts the list of products from cart items.
+     *
+     * @return
+     */
+    @JsonIgnore
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
+        for (CartItem cartItem: cartItems) {
+            products.add(cartItem.getProduct());
+        }
+        return products;
+    }
+
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
