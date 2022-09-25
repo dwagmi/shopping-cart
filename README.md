@@ -15,6 +15,7 @@ Console available at http://localhost:8080/h2-console
 ### Hibernate inheritance 
 - Used for Promotion parent class to child Promotion classes 
 - https://www.baeldung.com/hibernate-inheritance
+- Many to Many: https://www.baeldung.com/hibernate-many-to-many
 
 
 ## Assumptions 

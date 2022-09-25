@@ -21,7 +21,17 @@ public class CheckoutSession {
     @JoinColumn(name="cart_id")
     private Cart cart;
 
-//    private List<Promotion> promotions;
+    /**
+     * A checkoutSession can include multiple promotions, and a promotion
+     * can be applied to multiple checkoutSessions, so a mapping table is used to
+     * model the many-to-many relationship.
+     */
+    @ManyToMany
+    @JoinTable(
+        name = "checkout_session_promotion",
+        inverseJoinColumns = { @JoinColumn(name = "promotion_id") }
+    )
+    private List<Promotion> promotions;
 
     public CheckoutSession() {}
 
