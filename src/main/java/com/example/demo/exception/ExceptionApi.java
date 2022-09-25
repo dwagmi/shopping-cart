@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+import com.example.demo.model.exception.QuantityUnavailableException;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class ExceptionApi extends ResponseEntityExceptionHandler implements Erro
      */
     @RequestMapping(value = "/error")
     public ResponseEntity<String> error() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request: Input is in the wrong format or the requested quantity is unavailable");
     }
 
 
@@ -49,19 +50,24 @@ public class ExceptionApi extends ResponseEntityExceptionHandler implements Erro
                 new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
-
-
     /**
-     * Handles requested resource is not found.
-     *
-     * @param e
-     * @param request
-     * @return
+     * Handles NoSuchElementExceptions
      */
     @ExceptionHandler(value = { NoSuchElementException.class })
     protected ResponseEntity<Object> handleNoSuchElementException(
             RuntimeException e, WebRequest request) {
         String bodyOfResponse = "Resource cannot be found";
+        return handleExceptionInternal(e, bodyOfResponse,
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    /**
+     * Handles NoSuchElementExceptions
+     */
+    @ExceptionHandler(value = { QuantityUnavailableException.class })
+    public ResponseEntity<Object> handleQuantityUnavailableException(
+            RuntimeException e, WebRequest request) {
+        String bodyOfResponse = "Quantity requested to be added to the cart is unavailable";
         return handleExceptionInternal(e, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.CONFLICT, request);
     }

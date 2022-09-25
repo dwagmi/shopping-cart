@@ -58,7 +58,7 @@ public class CartServiceTest {
     @Test
     @Disabled
     @DisplayName("Adding a product to an empty cart should update the cart with the product")
-    public void testAddOneProductToEmptyCart() {
+    public void testAddOneProductToEmptyCart() throws Exception {
         int quantity = 1;
 
         cartService.addProduct(fakeEmptyCart, fakeProduct, quantity);

@@ -2,6 +2,7 @@ package com.example.demo.service.cart;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.cart.CartItem;
+import com.example.demo.model.exception.QuantityUnavailableException;
 import com.example.demo.model.product.Product;
 import com.example.demo.model.promotion.Promotion;
 import com.example.demo.repository.cart.CartItemRepository;
@@ -62,7 +63,7 @@ public class CartService implements BaseCartService {
      * Adds product to cart or update if already in cart. Then search and update cart with
      * any applicable promotions.
      */
-    public Cart addProduct(Cart cart, Product product, int quantity) {
+    public Cart addProduct(Cart cart, Product product, int quantity) throws Exception {
         log.info("Adding " + quantity + " of product " + product + " to " + cart);
 
         Optional<CartItem> optionalCartItem = cart.getCartItems().stream().filter(item -> item.getProduct().equals(product)).findFirst();
@@ -78,9 +79,11 @@ public class CartService implements BaseCartService {
     /**
      * Add new product to cart
      */
-    private void addNewCartItemWithQuantity(Cart cart, Product product, int quantity) {
+    private void addNewCartItemWithQuantity(Cart cart, Product product, int quantity) throws Exception {
         if (validate(cart, product, quantity)) {
             cartItemRepository.save(new CartItem(cart, product, quantity));
+        } else {
+            throw new QuantityUnavailableException("Quantity unavailable");
         }
     }
 

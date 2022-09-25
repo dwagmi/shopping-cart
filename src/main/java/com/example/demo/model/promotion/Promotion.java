@@ -2,6 +2,7 @@ package com.example.demo.model.promotion;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 public abstract class Promotion {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -40,8 +42,13 @@ public abstract class Promotion {
         return promotionType;
     }
 
+    @JsonIgnore
     public Product getProduct() {
         return product;
+    }
+
+    public String getProductOnPromotion() {
+        return product.getName();
     }
 
     /**

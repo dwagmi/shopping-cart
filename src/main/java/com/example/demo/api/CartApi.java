@@ -65,7 +65,7 @@ public class CartApi {
      * @return
      */
     @GetMapping(path="/{cartId}/{productId}/{quantity}")
-    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable int quantity) {
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable int quantity) throws Exception {
         // Look up and retrieve cart from provided id.
         Optional<Cart> optionalCart = cartService.findCartById(cartId);
         Cart cart = optionalCart.get();

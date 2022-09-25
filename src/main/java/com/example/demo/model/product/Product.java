@@ -1,5 +1,7 @@
 package com.example.demo.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -30,7 +32,12 @@ public class Product {
         this.quantity = quantity;
     }
 
+    @JsonIgnore
     public Long getId() {
+        return id;
+    }
+
+    public Long getProductId() {
         return id;
     }
 
@@ -62,7 +69,12 @@ public class Product {
         this.price = price;
     }
 
+    @JsonIgnore
     public int getQuantity() {
+        return quantity;
+    }
+
+    public int getAvailability() {
         return quantity;
     }
 

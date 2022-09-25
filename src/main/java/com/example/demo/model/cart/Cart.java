@@ -18,7 +18,7 @@ import java.util.*;
  * {@link JsonPropertyOrder} is used to specify the order of fields in the API response.
  */
 @Entity
-@JsonPropertyOrder({ "id", "cartItems", "promotions", "grossTotal", "savings", "netTotal" })
+@JsonPropertyOrder({ "cartId", "cartItems", "promotions", "grossTotal", "savings", "netTotal" })
 public class Cart {
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -45,10 +45,17 @@ public class Cart {
     /**
      * Returns the cart id
      */
+    @JsonIgnore
     public Long getId() {
         return id;
     }
 
+    /**
+     * Return "cartId" in API response instead of "id".
+     */
+    public Long getCartId() {
+        return id;
+    }
     /**
      * Returns the set of promotions applicable to the current cart.
      *
