@@ -4,7 +4,6 @@ import com.example.demo.model.cart.Cart;
 import com.example.demo.model.product.Product;
 import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartRepository;
-import com.example.demo.repository.checkout.CheckoutSessionRepository;
 import com.example.demo.service.cart.CartService;
 import com.example.demo.service.promotion.PromotionService;
 import org.junit.jupiter.api.*;
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("unit")
 @ExtendWith(MockitoExtension.class)
-public class CartServiceTest {
+public class CartServiceUnitTest {
     private CartService cartService;
     private List<Cart> fakeCarts;
     private Cart fakeEmptyCart;
