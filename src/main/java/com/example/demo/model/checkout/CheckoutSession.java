@@ -2,11 +2,9 @@ package com.example.demo.model.checkout;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.cart.CartItem;
-import com.example.demo.model.promotion.Promotion;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
-import java.util.List;
 
 @Entity
 public class CheckoutSession {
@@ -20,18 +18,6 @@ public class CheckoutSession {
     @OneToOne
     @JoinColumn(name="cart_id")
     private Cart cart;
-
-    /**
-     * A checkoutSession can include multiple promotions, and a promotion
-     * can be applied to multiple checkoutSessions, so a mapping table is used to
-     * model the many-to-many relationship.
-     */
-    @ManyToMany
-    @JoinTable(
-        name = "checkout_session_promotion",
-        inverseJoinColumns = { @JoinColumn(name = "promotion_id") }
-    )
-    private List<Promotion> promotions;
 
     public CheckoutSession() {}
 
@@ -52,7 +38,6 @@ public class CheckoutSession {
         // TODO: Find promotions and apply them to the checkout.
         return netTotal;
     }
-
 
     private double calculateGrossTotal(Cart cart) {
         double grossTotal = 0;
