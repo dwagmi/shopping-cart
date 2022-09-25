@@ -39,12 +39,12 @@ public class Cart {
      * Similar to cart items, a cart's promotions are also fetched eagerly.
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "cart_promotion",
-            inverseJoinColumns = { @JoinColumn(name = "promotion_id") }
-    )
+    @JoinTable(name = "cart_promotion", inverseJoinColumns = { @JoinColumn(name = "promotion_id") })
     private Set<Promotion> promotions;
 
+    /**
+     * Returns the cart id
+     */
     public Long getId() {
         return id;
     }
@@ -82,7 +82,7 @@ public class Cart {
      * Calculates and returns amount saved from promotions
      */
     public String getSavings() {
-        return df.format(calculateGrossTotal() - calculateNetTotal());
+        return df.format(calculateSavings());
     }
 
     /**
@@ -121,20 +121,6 @@ public class Cart {
     }
 
     /**
-     * Calculates the total cost of items in the cart after discount
-     */
-    private double calculateNetTotal() {
-        double netTotal = 0;
-        netTotal += calculateGrossTotal();
-
-        // Mutates the given cart with the promotion.
-        for (Promotion promotion: promotions) {
-            promotion.applyPromotion(this);
-        }
-        return netTotal;
-    }
-
-    /**
      * Calculates the total cost of items before discount
      */
     private double calculateGrossTotal() {
@@ -143,6 +129,26 @@ public class Cart {
             grossTotal += cartItem.getProduct().getPrice() * cartItem.getQuantity();
         }
         return grossTotal;
+    }
+
+    /**
+     * Calculates the total savings after applying all applicable promotions
+     */
+    private double calculateSavings() {
+        double savings = 0;
+
+        for (Promotion promotion: promotions) {
+            savings += promotion.applyPromotion(this);
+        }
+
+        return savings;
+    }
+
+    /**
+     * Calculates the total cost of items in the cart after discount
+     */
+    private double calculateNetTotal() {
+        return calculateGrossTotal() - calculateSavings();
     }
 
     @Override

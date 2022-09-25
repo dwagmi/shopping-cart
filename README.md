@@ -35,3 +35,4 @@ Console available at http://localhost:8080/h2-console
   - which parts can be read-only/immutable
   - concurrent updates. 
 - Ensure that invalid promotions cannot be applied - add validator
+- Look into stacking of promotions. Do they apply multiple times. 

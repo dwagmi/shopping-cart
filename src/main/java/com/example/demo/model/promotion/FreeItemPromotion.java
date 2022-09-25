@@ -1,6 +1,7 @@
 package com.example.demo.model.promotion;
 
 import com.example.demo.model.cart.Cart;
+import com.example.demo.model.cart.CartItem;
 import com.example.demo.model.product.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Optional;
 
 /**
  * Free Item promotion:
@@ -34,10 +36,34 @@ public class FreeItemPromotion extends Promotion {
         return promotionProduct;
     }
 
+    /**
+     * If the required product is in the cart, then the cost of the promotional product
+     * is deducted, if it exists in the cart.
+     *
+     * If there is >1 required product in the cart, then the cost of each promotional product
+     * that exists in the cart is deducted, up to the quantity of the required product.
+     *
+     * @return total amount saved by applying this promotion
+     */
     @Override
-    public Cart applyPromotion(Cart cart) {
-        log.info("apply");
-        return null;
+    public double applyPromotion(Cart cart) {
+        log.info("applying promotion for " + super.getPromotionType());
+        return promotionProduct.getPrice() *
+                Math.max(
+                        findQtyOfProductInCart(cart, product),
+                        findQtyOfProductInCart(cart, promotionProduct)
+                );
+    }
+
+    private int findQtyOfProductInCart(Cart cart, Product p) {
+        Optional<CartItem> optionalCartItem = cart.getCartItems()
+                .stream()
+                .filter(item -> item.getProduct().equals(p))
+                .findFirst();
+        if (!optionalCartItem.isPresent()) {
+            return 0;
+        }
+        return optionalCartItem.get().getQuantity();
     }
 
     @Override

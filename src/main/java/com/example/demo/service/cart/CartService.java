@@ -65,7 +65,6 @@ public class CartService implements BaseCartService {
     public Cart addProduct(Cart cart, Product product, int quantity) {
         log.info("Adding " + quantity + " of product " + product + " to " + cart);
 
-        // Checks if product already exists in the cart, if it does, update the quantity
         Optional<CartItem> optionalCartItem = cart.getCartItems().stream().filter(item -> item.getProduct().equals(product)).findFirst();
         if (optionalCartItem.isPresent()) {
             updateExistingCartItemQuantity(cart, optionalCartItem.get(), quantity);

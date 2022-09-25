@@ -35,8 +35,8 @@ public class MultiBuyPromotion extends Promotion {
     }
 
     @Override
-    public Cart applyPromotion(Cart cart) {
-        return new Cart();
+    public double applyPromotion(Cart cart) {
+        return 0.0;
     }
 
     @Override

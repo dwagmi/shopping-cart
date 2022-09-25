@@ -46,12 +46,13 @@ public abstract class Promotion {
 
     /**
      * Each child promotion updates the cart according to their
-     * specific promotion details
+     * specific promotion details. Returns the dollar amount saved
+     * after applying the promotion.
      *
      * @param cart
      * @return
      */
-    public abstract Cart applyPromotion(Cart cart);
+    public abstract double applyPromotion(Cart cart);
 
     @Override
     public String toString() {

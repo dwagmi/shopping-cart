@@ -33,8 +33,8 @@ public class VolumeDiscountPromotion extends Promotion {
     }
 
     @Override
-    public Cart applyPromotion(Cart cart) {
-        return null;
+    public double applyPromotion(Cart cart) {
+        return 0.0;
     }
 
     @Override
