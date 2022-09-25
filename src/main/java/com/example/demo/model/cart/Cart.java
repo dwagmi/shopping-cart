@@ -7,10 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Domain model of the shopping cart.
@@ -67,6 +64,12 @@ public class Cart {
         return promotions;
     }
 
+    /**
+     * Converts and saves the provided list of promotions to set.
+     */
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions =  new HashSet<Promotion>(promotions);
+    }
     /**
      * Calculates and returns the cart's gross total before promotions are
      * applied, as a formatted string to 2dp.
