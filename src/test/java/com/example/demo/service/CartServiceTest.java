@@ -37,7 +37,7 @@ public class CartServiceTest {
 
     @BeforeEach
     public void setUp() {
-        cartService = new CartService(mockCartRepository, cartItemRepository, checkoutSessionRepository);
+        cartService = new CartService(mockCartRepository, cartItemRepository);
         fakeProduct = new Product("sku-001", "Test Product", 34.99, 3);
         fakeCarts = new ArrayList<>();
         fakeEmptyCart = new Cart();

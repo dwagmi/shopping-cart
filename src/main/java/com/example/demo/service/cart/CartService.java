@@ -2,7 +2,6 @@ package com.example.demo.service.cart;
 
 import com.example.demo.model.cart.Cart;
 import com.example.demo.model.cart.CartItem;
-import com.example.demo.model.checkout.CheckoutSession;
 import com.example.demo.model.product.Product;
 import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartRepository;
@@ -23,13 +22,11 @@ public class CartService implements BaseCartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final CheckoutSessionRepository checkoutSessionRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, CheckoutSessionRepository checkoutSessionRepository) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.checkoutSessionRepository = checkoutSessionRepository;
     }
 
     @Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
